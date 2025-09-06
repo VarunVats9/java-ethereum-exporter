@@ -1,4 +1,4 @@
-package com.example.javaetherscanexporter.alchemy.types;
+package com.example.ethereumexporter.alchemy.types;
 
 import com.google.gson.annotations.SerializedName;
 

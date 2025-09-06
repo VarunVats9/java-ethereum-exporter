@@ -1,7 +1,7 @@
-package com.example.javaetherscanexporter.alchemy;
+package com.example.ethereumexporter.alchemy;
 
-import com.example.javaetherscanexporter.alchemy.types.AssetTransfer;
-import com.example.javaetherscanexporter.alchemy.types.GetAssetTransfersResponse;
+import com.example.ethereumexporter.alchemy.types.AssetTransfer;
+import com.example.ethereumexporter.alchemy.types.GetAssetTransfersResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

@@ -1,4 +1,4 @@
-package com.example.javaetherscanexporter.formatter.types;
+package com.example.ethereumexporter.formatter.types;
 
 public class CsvRecord {
     public String transactionHash;

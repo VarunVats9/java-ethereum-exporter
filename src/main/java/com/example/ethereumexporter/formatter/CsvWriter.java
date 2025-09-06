@@ -1,6 +1,6 @@
-package com.example.javaetherscanexporter.formatter;
+package com.example.ethereumexporter.formatter;
 
-import com.example.javaetherscanexporter.formatter.types.CsvRecord;
+import com.example.ethereumexporter.formatter.types.CsvRecord;
 import com.opencsv.CSVWriter;
 
 import java.io.FileWriter;

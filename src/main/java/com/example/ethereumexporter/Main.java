@@ -1,9 +1,9 @@
-package com.example.javaetherscanexporter;
+package com.example.ethereumexporter;
 
-import com.example.javaetherscanexporter.alchemy.AlchemyClient;
-import com.example.javaetherscanexporter.alchemy.types.AssetTransfer;
-import com.example.javaetherscanexporter.formatter.CsvWriter;
-import com.example.javaetherscanexporter.formatter.types.CsvRecord;
+import com.example.ethereumexporter.alchemy.AlchemyClient;
+import com.example.ethereumexporter.alchemy.types.AssetTransfer;
+import com.example.ethereumexporter.formatter.CsvWriter;
+import com.example.ethereumexporter.formatter.types.CsvRecord;
 
 import java.io.IOException;
 import java.util.ArrayList;
