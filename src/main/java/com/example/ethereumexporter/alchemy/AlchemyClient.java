@@ -5,15 +5,11 @@ import com.example.ethereumexporter.alchemy.types.GetAssetTransfersResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 public class AlchemyClient {
     private static final String API_URL = "https://eth-mainnet.g.alchemy.com/v2/";
@@ -27,24 +23,13 @@ public class AlchemyClient {
         this.gson = new Gson();
     }
 
-    public List<AssetTransfer> getAssetTransfers(String address) throws IOException {
-        List<AssetTransfer> fromTransfers = getAssetTransfers(address, "fromAddress");
-        List<AssetTransfer> toTransfers = getAssetTransfers(address, "toAddress");
-
-        List<AssetTransfer> allTransfers = new ArrayList<>();
-        allTransfers.addAll(fromTransfers);
-        allTransfers.addAll(toTransfers);
-
-        return allTransfers;
-    }
-
-    private List<AssetTransfer> getAssetTransfers(String address, String direction) throws IOException {
-        List<AssetTransfer> allTransfers = new ArrayList<>();
+    public int streamAssetTransfers(String address, Consumer<AssetTransfer> callback) throws IOException {
+        AtomicInteger totalTxs = new AtomicInteger();
         String pageKey = null;
 
         while (true) {
             JsonObject params = new JsonObject();
-            params.addProperty(direction, address);
+            params.addProperty("fromAddress", address);
             params.addProperty("maxCount", "0x3e8");
             params.addProperty("excludeZeroValue", false);
             params.addProperty("withMetadata", true);
@@ -77,7 +62,6 @@ public class AlchemyClient {
             Request request = new Request.Builder()
                     .url(API_URL + apiKey)
                     .post(body)
-                    .header("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36")
                     .build();
 
             try (Response response = httpClient.newCall(request).execute()) {
@@ -86,7 +70,11 @@ public class AlchemyClient {
                 }
 
                 GetAssetTransfersResponse apiResp = gson.fromJson(response.body().string(), GetAssetTransfersResponse.class);
-                allTransfers.addAll(apiResp.result.transfers);
+                if (apiResp != null && apiResp.result != null && apiResp.result.transfers != null) {
+                    apiResp.result.transfers.forEach(callback);
+                    totalTxs.addAndGet(apiResp.result.transfers.size());
+                }
+
 
                 if (apiResp.result.pageKey == null) {
                     break;
@@ -94,7 +82,6 @@ public class AlchemyClient {
                 pageKey = apiResp.result.pageKey;
             }
         }
-
-        return allTransfers;
+        return totalTxs.get();
     }
 }

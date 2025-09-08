@@ -22,15 +22,15 @@ This will create a JAR file with all the dependencies in the `target` directory.
 To export the transaction history, run the following command:
 
 ```bash
-java -jar target/java-ethereum-exporter-1.0-SNAPSHOT-jar-with-dependencies.jar <ETHEREUM_ADDRESS>
+java -jar target/java-ethereum-exporter-1.0-SNAPSHOT-jar-with-dependencies.jar <ETHEREUM_ADDRESS> <YOUR_ALCHEMY_API_KEY>
 ```
 
-Replace `<ETHEREUM_ADDRESS>` with the Ethereum address you want to export.
+Replace `<ETHEREUM_ADDRESS>` with the Ethereum address you want to export and `<YOUR_ALCHEMY_API_KEY>` with your Alchemy API key. You can get a free API key from [Alchemy](https://www.alchemy.com/).
 
 For example:
 
 ```bash
-java -jar target/java-ethereum-exporter-1.0-SNAPSHOT-jar-with-dependencies.jar 0xfb50526f49894b78541b776f5aaefe43e3bd8590
+java -jar target/java-ethereum-exporter-1.0-SNAPSHOT-jar-with-dependencies.jar 0xa39b189482f984388a34460636fea9eb181ad1a6 <YOUR_ALCHEMY_API_KEY>
 ```
 
 This will create a CSV file named `<ETHEREUM_ADDRESS>_transactions.csv` in the root directory of the project.
